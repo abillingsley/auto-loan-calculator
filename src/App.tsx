@@ -4,7 +4,6 @@ import { CarSimple, Calculator, Percent, CalendarBlank } from '@phosphor-icons/r
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { useKV } from '@github/spark/hooks'
@@ -17,6 +16,7 @@ function App() {
 
   const [vehiclePriceInput, setVehiclePriceInput] = useState((vehiclePrice || 35000).toString())
   const [downPaymentInput, setDownPaymentInput] = useState((downPayment || 7000).toString())
+  const [interestRateInput, setInterestRateInput] = useState((interestRate || 6.5).toString())
 
   const totalFinanced = Math.max(0, (vehiclePrice || 35000) - (downPayment || 7000))
 
@@ -74,6 +74,19 @@ function App() {
 
   const handleDownPaymentBlur = () => {
     setDownPaymentInput((downPayment || 7000).toString())
+  }
+
+  const handleInterestRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9.]/g, '')
+    const parts = value.split('.')
+    const formatted = parts.length > 2 ? parts[0] + '.' + parts.slice(1).join('') : value
+    setInterestRateInput(formatted)
+    const numValue = parseFloat(formatted || '0')
+    setInterestRate(Math.min(numValue, 20))
+  }
+
+  const handleInterestRateBlur = () => {
+    setInterestRateInput((interestRate || 6.5).toFixed(2))
   }
 
   return (
@@ -149,27 +162,25 @@ function App() {
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label className="text-[14px] font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                  <Percent size={16} weight="bold" />
-                  Interest Rate
-                </Label>
-                <span className="text-[20px] font-bold text-accent">
-                  {(interestRate || 6.5).toFixed(2)}%
-                </span>
+              <Label htmlFor="interest-rate" className="text-[14px] font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                <Percent size={16} weight="bold" />
+                Interest Rate
+              </Label>
+              <div className="relative">
+                <Input
+                  id="interest-rate"
+                  type="text"
+                  value={interestRateInput}
+                  onChange={handleInterestRateChange}
+                  onBlur={handleInterestRateBlur}
+                  className="pl-4 py-3 pr-10 text-[15px] font-medium"
+                  placeholder="6.50"
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground text-[15px] pointer-events-none">%</span>
               </div>
-              <Slider
-                value={[interestRate || 6.5]}
-                onValueChange={(value) => setInterestRate(value[0])}
-                min={0}
-                max={20}
-                step={0.25}
-                className="py-2"
-              />
-              <div className="flex justify-between text-[13px] text-muted-foreground">
-                <span>0%</span>
-                <span>20%</span>
-              </div>
+              <p className="text-[13px] text-muted-foreground">
+                {(interestRate || 6.5).toFixed(2)}% APR
+              </p>
             </div>
 
             <div className="space-y-3">
