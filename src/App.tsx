@@ -15,15 +15,15 @@ function App() {
   const [interestRate, setInterestRate] = useKV<number>('interestRate', 6.5)
   const [loanTerm, setLoanTerm] = useKV<48 | 60 | 72 | 84>('loanTerm', 60)
 
-  const [vehiclePriceInput, setVehiclePriceInput] = useState((vehiclePrice ?? 35000).toString())
-  const [downPaymentInput, setDownPaymentInput] = useState((downPayment ?? 7000).toString())
+  const [vehiclePriceInput, setVehiclePriceInput] = useState((vehiclePrice || 35000).toString())
+  const [downPaymentInput, setDownPaymentInput] = useState((downPayment || 7000).toString())
 
-  const totalFinanced = Math.max(0, (vehiclePrice ?? 35000) - (downPayment ?? 7000))
+  const totalFinanced = Math.max(0, (vehiclePrice || 35000) - (downPayment || 7000))
 
   const calculateMonthlyPayment = () => {
     if (totalFinanced <= 0) return 0
-    const rate = interestRate ?? 6.5
-    const term = loanTerm ?? 60
+    const rate = interestRate || 6.5
+    const term = loanTerm || 60
     
     if (rate === 0) return totalFinanced / term
 
@@ -65,15 +65,15 @@ function App() {
     const value = e.target.value.replace(/[^0-9]/g, '')
     setDownPaymentInput(value)
     const numValue = parseInt(value || '0', 10)
-    setDownPayment(Math.min(numValue, vehiclePrice ?? 35000))
+    setDownPayment(Math.min(numValue, vehiclePrice || 35000))
   }
 
   const handleVehiclePriceBlur = () => {
-    setVehiclePriceInput((vehiclePrice ?? 35000).toString())
+    setVehiclePriceInput((vehiclePrice || 35000).toString())
   }
 
   const handleDownPaymentBlur = () => {
-    setDownPaymentInput((downPayment ?? 7000).toString())
+    setDownPaymentInput((downPayment || 7000).toString())
   }
 
   return (
@@ -111,7 +111,7 @@ function App() {
                   />
                 </div>
                 <p className="text-[13px] text-muted-foreground">
-                  {formatCurrency(vehiclePrice ?? 35000)}
+                  {formatCurrency(vehiclePrice || 35000)}
                 </p>
               </div>
 
@@ -132,7 +132,7 @@ function App() {
                   />
                 </div>
                 <p className="text-[13px] text-muted-foreground">
-                  {formatCurrency(downPayment ?? 7000)}
+                  {formatCurrency(downPayment || 7000)}
                 </p>
               </div>
             </div>
@@ -155,11 +155,11 @@ function App() {
                   Interest Rate
                 </Label>
                 <span className="text-[20px] font-bold text-accent">
-                  {(interestRate ?? 6.5).toFixed(2)}%
+                  {(interestRate || 6.5).toFixed(2)}%
                 </span>
               </div>
               <Slider
-                value={[interestRate ?? 6.5]}
+                value={[interestRate || 6.5]}
                 onValueChange={(value) => setInterestRate(value[0])}
                 min={0}
                 max={20}
@@ -177,7 +177,7 @@ function App() {
                 <CalendarBlank size={16} weight="bold" />
                 Loan Term
               </Label>
-              <Select value={(loanTerm ?? 60).toString()} onValueChange={(value) => setLoanTerm(parseInt(value) as 48 | 60 | 72 | 84)}>
+              <Select value={(loanTerm || 60).toString()} onValueChange={(value) => setLoanTerm(parseInt(value) as 48 | 60 | 72 | 84)}>
                 <SelectTrigger id="loan-term" className="py-3 px-4 text-[15px] font-medium">
                   <SelectValue />
                 </SelectTrigger>
@@ -229,13 +229,13 @@ function App() {
                 <div className="space-y-1">
                   <p className="text-muted-foreground">Total of payments</p>
                   <p className="font-semibold text-card-foreground">
-                    {formatCurrency(monthlyPayment * (loanTerm ?? 60))}
+                    {formatCurrency(monthlyPayment * (loanTerm || 60))}
                   </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-muted-foreground">Total interest</p>
                   <p className="font-semibold text-card-foreground">
-                    {formatCurrency(Math.max(0, (monthlyPayment * (loanTerm ?? 60)) - totalFinanced))}
+                    {formatCurrency(Math.max(0, (monthlyPayment * (loanTerm || 60)) - totalFinanced))}
                   </p>
                 </div>
               </div>
