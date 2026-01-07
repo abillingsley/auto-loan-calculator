@@ -99,14 +99,14 @@ function App() {
                   Est. Vehicle Price
                 </Label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-[15px]">$</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-[15px] pointer-events-none">$</span>
                   <Input
                     id="vehicle-price"
                     type="text"
                     value={vehiclePriceInput}
                     onChange={handleVehiclePriceChange}
                     onBlur={handleVehiclePriceBlur}
-                    className="pl-8 py-3 px-4 text-[15px] font-medium"
+                    className="pl-7 py-3 pr-4 text-[15px] font-medium"
                     placeholder="35000"
                   />
                 </div>
@@ -120,14 +120,14 @@ function App() {
                   Down Payment
                 </Label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-[15px]">$</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-[15px] pointer-events-none">$</span>
                   <Input
                     id="down-payment"
                     type="text"
                     value={downPaymentInput}
                     onChange={handleDownPaymentChange}
                     onBlur={handleDownPaymentBlur}
-                    className="pl-8 py-3 px-4 text-[15px] font-medium"
+                    className="pl-7 py-3 pr-4 text-[15px] font-medium"
                     placeholder="7000"
                   />
                 </div>
