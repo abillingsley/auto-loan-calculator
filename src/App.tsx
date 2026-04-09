@@ -210,7 +210,7 @@ function App() {
               </div>
               
               <div className="relative overflow-hidden">
-                <div className="bg-gradient-to-br from-accent/20 to-accent/5 rounded-2xl p-6 sm:p-8 border-2 border-accent/30">
+                <div className="bg-gradient-to-br from-pink-100 to-pink-50 rounded-2xl p-6 sm:p-8 border-2 border-pink-300">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={monthlyPayment.toFixed(2)}
@@ -225,7 +225,7 @@ function App() {
                       }}
                       className="text-center"
                     >
-                      <div className="font-display text-[36px] sm:text-[48px] font-bold leading-none text-accent-foreground">
+                      <div className="font-display text-[36px] sm:text-[48px] font-bold leading-none text-pink-600">
                         {formatCurrencyWithCents(monthlyPayment)}
                       </div>
                       <div className="text-[13px] text-muted-foreground mt-2 uppercase tracking-wide">
